@@ -12,11 +12,6 @@
     Description :       
 -------------------------------------------------
 """
-import random
-import string
-import time
-import uuid
-
 from flask import Flask, request, g
 from flask_cors import CORS
 
@@ -44,6 +39,26 @@ def create_app():
 
     from app.auth.api import init_api
     init_api(app)
+
+    # 把各个蓝图在注册进来，routes中的bp
+    from app import routes
+    from flask.blueprints import Blueprint
+
+    def _import_submodules_from_package(package):
+        import pkgutil
+
+        modules = []
+        # 在只知道包名的情况下，成功获取了包下所有模块
+        for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix=package.__name__ + "."):
+            print("{} name: {}, is_sub_package: {}".format(importer, modname, ispkg))
+            modules.append(__import__(modname, fromlist="dummy"))
+        return modules
+
+    for module in _import_submodules_from_package(routes):
+        bp = getattr(module, 'bp')
+        if bp and isinstance(bp, Blueprint):
+            # 注册蓝图
+            app.register_blueprint(bp)
 
     @app.before_first_request
     def create_admin_casual_user():

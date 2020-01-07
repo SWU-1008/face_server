@@ -4,7 +4,7 @@
 -------------------------------------------------
 
     @   Author  :       pengj
-    @   date    :       2019/11/25 22:25
+    @   date    :       2019/12/30 14:59
     @   IDE     :       PyCharm
     @   GitHub  :       https://github.com/JackyPJB
     @   Contact :       pengjianbiao@hotmail.com
@@ -12,19 +12,7 @@
     Description :       
 -------------------------------------------------
 """
-from flask import jsonify
 
 __author__ = 'Max_Pengjb'
 
 
-def trueReturn(data, msg):
-    return jsonify({
-        "status": "success",
-        "code": "200",
-        "data": data,
-        "msg": msg
-    })
-
-
-def falseReturn(data, msg):
-    return jsonify({"status": "failed", "code": "500", "data": data, "msg": msg})

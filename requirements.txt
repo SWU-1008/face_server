@@ -5,3 +5,4 @@ flask
 flask_mongoengine
 flask-cors
 bcrypt
+wechatpy[cryptography]
